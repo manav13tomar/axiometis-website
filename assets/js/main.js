@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
     contentItems.forEach(item => {
         item.addEventListener('mouseenter', function() {
             this.style.transform = 'translateX(15px)';
-            this.style.color = '#1e2a47';
+            this.style.color = '#0f233b';
         });
         
         item.addEventListener('mouseleave', function() {

@@ -20,7 +20,7 @@ body {
 
 /* Header Styles */
 .header {
-    background: #1e2a47;
+    background: #0f233b;
     min-height: 60vh;
     position: relative;
     overflow: hidden;
@@ -144,7 +144,7 @@ body {
 .section-title {
     font-size: 1.2rem;
     font-weight: 700;
-    color: #1e2a47;
+    color: #0f233b;
     text-transform: uppercase;
     letter-spacing: 2px;
     margin-bottom: 2rem;
@@ -159,7 +159,7 @@ body {
     left: 0;
     width: 50px;
     height: 2px;
-    background: #1e2a47;
+    background: #0f233b;
 }
 
 .section-content {
@@ -198,9 +198,9 @@ body {
 }
 
 .content-item:hover {
-    color: #1e2a47;
+    color: #0f233b;
     transform: translateX(10px);
-    border-bottom-color: #1e2a47;
+    border-bottom-color: #0f233b;
 }
 
 .content-item:not(:last-child)::after {
@@ -215,7 +215,7 @@ body {
 
 /* Footer Styles */
 .footer {
-    background: #1e2a47;
+    background: #0f233b;
     color: white;
     text-align: center;
     padding: 2rem 0;
