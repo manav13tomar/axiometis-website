@@ -13,22 +13,10 @@ document.addEventListener('DOMContentLoaded', function() {
             const targetSection = document.querySelector(targetId);
             
             if (targetSection) {
-                // Temporarily disable sticky header during smooth scroll
-                header.style.transition = 'none';
-                
-                // Calculate offset for sticky header
-                const headerHeight = header.offsetHeight;
-                const targetPosition = targetSection.offsetTop - headerHeight - 20;
-                
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: 'smooth'
+                targetSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
                 });
-                
-                // Re-enable transitions after scroll
-                setTimeout(() => {
-                    header.style.transition = '';
-                }, 100);
             }
         });
     });
@@ -67,30 +55,16 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Combined scroll functionality to prevent conflicts
-    let lastScrollY = window.scrollY;
-    let ticking = false;
+    // Simple navigation highlighting only (no sticky header for now)
     const sections = document.querySelectorAll('section[id]');
     const navItems = document.querySelectorAll('.nav-link');
-    function updateHeader() {
-        const currentScrollY = window.scrollY;
-        
-        // Only update if scroll position actually changed
-        if (currentScrollY !== lastScrollY) {
-            if (currentScrollY > 100) {
-                header.classList.add('sticky');
-            } else {
-                header.classList.remove('sticky');
-            }
-            lastScrollY = currentScrollY;
-        }
-        
-        // Update navigation highlighting
+
+    function highlightNavigation() {
         let current = '';
         sections.forEach(section => {
             const sectionTop = section.offsetTop;
             const sectionHeight = section.clientHeight;
-            if (currentScrollY >= sectionTop - 200) {
+            if (window.pageYOffset >= sectionTop - 200) {
                 current = section.getAttribute('id');
             }
         });
@@ -101,18 +75,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 item.classList.add('active');
             }
         });
-        
-        ticking = false;
     }
-    
-    function requestTick() {
-        if (!ticking) {
-            requestAnimationFrame(updateHeader);
-            ticking = true;
-        }
-    }
-    
-    window.addEventListener('scroll', requestTick, { passive: true });
+
+    // Use simple scroll event without complex optimization
+    window.addEventListener('scroll', highlightNavigation, { passive: true });
 
     // Add typing effect to hero title
     function typeWriter(element, text, speed = 100) {
