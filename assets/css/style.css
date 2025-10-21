@@ -26,6 +26,38 @@ body {
     overflow: hidden;
 }
 
+/* Sticky navigation for better visibility */
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 0;
+    position: relative;
+    z-index: 2;
+    transition: all 0.3s ease;
+}
+
+/* Sticky header when scrolling */
+.header.sticky {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    min-height: auto;
+    background: rgba(30, 42, 71, 0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+}
+
+.header.sticky .nav-container {
+    padding: 1rem 0;
+}
+
+.header.sticky .hero-content {
+    display: none;
+}
+
 .header::before {
     content: '';
     position: absolute;
@@ -37,14 +69,6 @@ body {
     opacity: 0.3;
 }
 
-.nav-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 2rem 0;
-    position: relative;
-    z-index: 2;
-}
 
 .logo h1 {
     color: white;
@@ -67,13 +91,14 @@ body {
 .nav-link {
     color: white;
     text-decoration: none;
-    font-weight: 500;
+    font-weight: 600;
     font-size: 0.9rem;
     letter-spacing: 1px;
     text-transform: uppercase;
     position: relative;
     transition: all 0.3s ease;
     padding: 0.5rem 0;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
 }
 
 .nav-link::after {
@@ -137,12 +162,13 @@ body {
 
 .section-title {
     font-size: 1.2rem;
-    font-weight: 600;
+    font-weight: 700;
     color: #1e2a47;
     text-transform: uppercase;
     letter-spacing: 2px;
     margin-bottom: 2rem;
     position: relative;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
 
 .section-title::after {
@@ -178,8 +204,8 @@ body {
 
 .content-item {
     font-size: 1rem;
-    font-weight: 500;
-    color: #374151;
+    font-weight: 600;
+    color: #1f2937;
     text-transform: uppercase;
     letter-spacing: 1px;
     padding: 1rem 0;
@@ -187,6 +213,7 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     border-bottom: 1px solid transparent;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
 
 .content-item:hover {
@@ -306,6 +333,32 @@ body {
 /* Smooth scrolling */
 html {
     scroll-behavior: smooth;
+}
+
+/* Ensure text visibility during scroll */
+.content-section {
+    scroll-margin-top: 2rem;
+}
+
+/* Better contrast for all text elements */
+.main-content {
+    background: #faf9f7;
+    padding: 4rem 0;
+    min-height: 40vh;
+    position: relative;
+}
+
+/* Add subtle background to improve text readability */
+.content-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.3);
+    z-index: -1;
+    border-radius: 8px;
 }
 
 /* Custom scrollbar */

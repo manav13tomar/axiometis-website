@@ -48,18 +48,27 @@ document.addEventListener('DOMContentLoaded', function() {
         
         item.addEventListener('mouseleave', function() {
             this.style.transform = 'translateX(0)';
-            this.style.color = '#374151';
+            this.style.color = '#1f2937';
         });
     });
 
-    // Parallax effect for header
+    // Sticky header functionality
+    const header = document.querySelector('.header');
+    const navContainer = document.querySelector('.nav-container');
+    
     window.addEventListener('scroll', function() {
         const scrolled = window.pageYOffset;
-        const header = document.querySelector('.header');
         const heroTitle = document.querySelector('.hero-title');
         
-        if (header && heroTitle) {
-            header.style.transform = `translateY(${scrolled * 0.5}px)`;
+        // Add sticky class when scrolling past header
+        if (scrolled > 100) {
+            header.classList.add('sticky');
+        } else {
+            header.classList.remove('sticky');
+        }
+        
+        // Parallax effect for hero title (only when not sticky)
+        if (heroTitle && !header.classList.contains('sticky')) {
             heroTitle.style.transform = `translateY(${scrolled * 0.3}px)`;
         }
     });
