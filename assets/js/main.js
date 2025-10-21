@@ -67,19 +67,40 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Sticky header functionality with debouncing
-    const navContainer = document.querySelector('.nav-container');
+    // Combined scroll functionality to prevent conflicts
+    let lastScrollY = window.scrollY;
     let ticking = false;
-    
+    const sections = document.querySelectorAll('section[id]');
+    const navItems = document.querySelectorAll('.nav-link');
     function updateHeader() {
-        const scrolled = window.pageYOffset;
+        const currentScrollY = window.scrollY;
         
-        // Add sticky class when scrolling past header
-        if (scrolled > 100) {
-            header.classList.add('sticky');
-        } else {
-            header.classList.remove('sticky');
+        // Only update if scroll position actually changed
+        if (currentScrollY !== lastScrollY) {
+            if (currentScrollY > 100) {
+                header.classList.add('sticky');
+            } else {
+                header.classList.remove('sticky');
+            }
+            lastScrollY = currentScrollY;
         }
+        
+        // Update navigation highlighting
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.clientHeight;
+            if (currentScrollY >= sectionTop - 200) {
+                current = section.getAttribute('id');
+            }
+        });
+
+        navItems.forEach(item => {
+            item.classList.remove('active');
+            if (item.getAttribute('href') === `#${current}`) {
+                item.classList.add('active');
+            }
+        });
         
         ticking = false;
     }
@@ -92,30 +113,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     window.addEventListener('scroll', requestTick, { passive: true });
-
-    // Dynamic navigation highlighting
-    const sections = document.querySelectorAll('section[id]');
-    const navItems = document.querySelectorAll('.nav-link');
-
-    function highlightNavigation() {
-        let current = '';
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.clientHeight;
-            if (window.pageYOffset >= sectionTop - 200) {
-                current = section.getAttribute('id');
-            }
-        });
-
-        navItems.forEach(item => {
-            item.classList.remove('active');
-            if (item.getAttribute('href') === `#${current}`) {
-                item.classList.add('active');
-            }
-        });
-    }
-
-    window.addEventListener('scroll', highlightNavigation);
 
     // Add typing effect to hero title
     function typeWriter(element, text, speed = 100) {
@@ -272,9 +269,4 @@ function debounce(func, wait) {
     };
 }
 
-// Optimize scroll events
-const optimizedScroll = debounce(function() {
-    // Scroll-based animations and effects
-}, 10);
-
-window.addEventListener('scroll', optimizedScroll);
+// Removed conflicting scroll event listeners
