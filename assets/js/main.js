@@ -1,6 +1,9 @@
 // AxioMetis Think Lab - Interactive Features
 document.addEventListener('DOMContentLoaded', function() {
     
+    // Get header element for use throughout
+    const header = document.querySelector('.header');
+    
     // Smooth scrolling for navigation links
     const navLinks = document.querySelectorAll('.nav-link');
     navLinks.forEach(link => {
@@ -10,10 +13,22 @@ document.addEventListener('DOMContentLoaded', function() {
             const targetSection = document.querySelector(targetId);
             
             if (targetSection) {
-                targetSection.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
+                // Temporarily disable sticky header during smooth scroll
+                header.style.transition = 'none';
+                
+                // Calculate offset for sticky header
+                const headerHeight = header.offsetHeight;
+                const targetPosition = targetSection.offsetTop - headerHeight - 20;
+                
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
                 });
+                
+                // Re-enable transitions after scroll
+                setTimeout(() => {
+                    header.style.transition = '';
+                }, 100);
             }
         });
     });
@@ -52,13 +67,12 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Sticky header functionality
-    const header = document.querySelector('.header');
+    // Sticky header functionality with debouncing
     const navContainer = document.querySelector('.nav-container');
+    let ticking = false;
     
-    window.addEventListener('scroll', function() {
+    function updateHeader() {
         const scrolled = window.pageYOffset;
-        const heroTitle = document.querySelector('.hero-title');
         
         // Add sticky class when scrolling past header
         if (scrolled > 100) {
@@ -67,11 +81,17 @@ document.addEventListener('DOMContentLoaded', function() {
             header.classList.remove('sticky');
         }
         
-        // Parallax effect for hero title (only when not sticky)
-        if (heroTitle && !header.classList.contains('sticky')) {
-            heroTitle.style.transform = `translateY(${scrolled * 0.3}px)`;
+        ticking = false;
+    }
+    
+    function requestTick() {
+        if (!ticking) {
+            requestAnimationFrame(updateHeader);
+            ticking = true;
         }
-    });
+    }
+    
+    window.addEventListener('scroll', requestTick, { passive: true });
 
     // Dynamic navigation highlighting
     const sections = document.querySelectorAll('section[id]');
