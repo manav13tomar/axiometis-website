@@ -77,20 +77,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Simple scroll handler with basic sticky header
-    function handleScroll() {
-        // Update navigation highlighting
-        highlightNavigation();
-        
-        // Simple sticky header - no complex logic
-        if (window.pageYOffset > 100) {
-            header.classList.add('sticky');
-        } else {
-            header.classList.remove('sticky');
-        }
-    }
-    
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    // Simple scroll handler - no sticky header to prevent flickering
+    window.addEventListener('scroll', highlightNavigation, { passive: true });
 
     // Add typing effect to hero title
     function typeWriter(element, text, speed = 100) {
