@@ -220,6 +220,36 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize particles
     createParticles();
+
+    // Books Category Accordion
+    const categoryHeaders = document.querySelectorAll('.category-header');
+    
+    console.log('Found category headers:', categoryHeaders.length);
+    
+    categoryHeaders.forEach(header => {
+        header.addEventListener('click', function(e) {
+            console.log('Category clicked');
+            const categoryBooks = this.nextElementSibling;
+            const isActive = this.classList.contains('active');
+            
+            // Close all other categories
+            categoryHeaders.forEach(otherHeader => {
+                if (otherHeader !== this) {
+                    otherHeader.classList.remove('active');
+                    otherHeader.nextElementSibling.classList.remove('expanded');
+                }
+            });
+            
+            // Toggle current category
+            if (isActive) {
+                this.classList.remove('active');
+                categoryBooks.classList.remove('expanded');
+            } else {
+                this.classList.add('active');
+                categoryBooks.classList.add('expanded');
+            }
+        });
+    });
 });
 
 // Add utility functions
